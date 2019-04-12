@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>three.text</title>
+<style>
+	body {margin: 0;}
+	canvas {width: 100%; height: 100%;}
+</style>
+</head>
+
+<body>
+	<script src="js/three.min.js"></script>
+	<script>
+		//场景
+		var scene = new THREE.Scene();
+		//相机  (视野角度， 长宽比， 远剪切面， 近剪切面)
+		var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+		//渲染器
+		var renderer = new THREE.WebGLRenderer();
+		//设置渲染器的长宽
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		//以一半的分辨率进行渲染
+		//setSize(window.innerWidth/2, window.innerHeight/2, false);
+		document.body.appendChild(renderer.domElement);
+		
+		//创建立方体(BoxGeometry)对象
+		var geometry = new THREE.BoxGeometry(1, 1, 1);
+		//创建材质
+		var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+		//创建网格(Mesh)，放入立方体和材质
+		var cube = new THREE.Mesh(geometry, material);
+		//将网格放入场景(默认位置0, 0, 0)
+		scene.add(cube);
+		//移动摄像机位置防止与立方体重叠
+		camera.position.z = 5;
+		
+		//进行60次/秒的渲染
+		function animate() {
+			//循环
+			requestAnimationFrame(animate);
+			
+			cube.rotation.x += 0.01;
+			cube.rotation.y += 0.01;
+			cube.rotation.z += 0.01;
+			
+			//进行渲染
+			renderer.render(scene, camera);
+		}
+		
+		animate();
+	</script>
+</body>
+</html>
